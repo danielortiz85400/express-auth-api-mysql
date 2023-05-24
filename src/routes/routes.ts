@@ -5,6 +5,6 @@ import { signinSchema } from "@/validations/ValSignin";
 import { signupSchema } from "@/validations/ValSignup";
 export const router = Router();
 
-router.post("/signin", [SchemasValidator(signinSchema), auth(["signIn"])]);
+router.post("/signin", [auth(["authJwt"]), SchemasValidator(signinSchema),auth(["signin"]) ]);
 
-router.post("/signup", [SchemasValidator(signupSchema), auth(["signUp"])]);
+router.post("/signup", [SchemasValidator(signupSchema), auth(["signup"])]);

@@ -6,7 +6,7 @@ import { pool } from '@/connectBD'
 import { authService } from '@/services/authService'
 
 passport.use(
-  'signUp',
+  'signup',
   new LocalStrategy(
     {
       usernameField: 'dni',
@@ -22,7 +22,6 @@ passport.use(
           )
 
           if ((<any[]>isValid).length > 0) {
-            console.log('Usuario inválido!')
             return done({ message: 'Usuario inválido!' })
           }
           const userToRegister = authService({ dni, userPassword, userRole })
@@ -34,7 +33,6 @@ passport.use(
 
           done(null, userToRegister)
         } catch (error) {
-          console.log(error)
           done(error)
         }
       })().catch((error) => done(error))
