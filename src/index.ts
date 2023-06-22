@@ -4,6 +4,12 @@ import '@/auth/AuthJwt'
 import '@/auth/SignUp'
 import '@/auth/SignIn'
 
-app.listen(3000, () => {
-  console.log('server on in port 3000')
-})
+import { configSever } from './envConfig'
+try {
+  app.listen(configSever.port, () => {
+    console.log(`Server listening on port ${configSever.port}`);
+  })
+} catch (error) {
+  throw error
+  console.error('Failed to start the server:', error);
+}

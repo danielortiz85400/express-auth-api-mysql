@@ -19,9 +19,13 @@ export const configPoolConnect: DBConfig = {
 
 }
 
-interface Token {
-  token: string
-}
-export const authToken: Token = {
+// interface Token {
+//   token: string
+// }
+export const authToken = {
   token: process.env.AUTH_TOKEN ?? ''
+}
+
+export const configSever = {
+  port: 3000
 }

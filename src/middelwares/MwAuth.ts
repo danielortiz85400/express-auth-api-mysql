@@ -18,8 +18,8 @@ export const auth =
           });
         }
         /* Corrige el error para SignIn: Cannot set headers after they are sent to the client.
-          Porque  estaría respondiendo el token(desde AuthJwt) y luego el usuario logeado*/
-        if (["id", "iat", "exp"].every((keys) => keys in <Object>user))
+          Estaría respondiendo el token(desde AuthJwt) y luego el usuario logeado*/
+        if (["id", "iat", "exp"].every((keys) => keys in user))
           return next();
 
         res.status(200).json({

@@ -8,14 +8,8 @@ export const signupSchema = Joi.object().keys({
   userPassword: Joi.string()
     .trim()
     .required()
-    /**Requiere al menos una letra mayúscula ((?=.*[A-Z])).
-          Requiere al menos una letra minúscula ((?=.*[a-z])).
-          Requiere al menos un número ((?=.*[0-9])).
-          Requiere al menos un caracter especial de la lista !@#$%^&* ((?=.*[!@#$%^&*])).
-          Permite una longitud total de 1 a 10 caracteres (.{1,10}).
- */
     .pattern(/^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*[!@#$%^&*]).{10}$/)
-    // string.pattern.base no funciona importado
+    // string.pattern.base it's doesn't work importing
     .messages({
       "string.pattern.base": "Contraseña inválida",
       ...signup.password,
