@@ -1,15 +1,10 @@
 import { app } from './app'
-import './connectBD'
-import '@/auth/AuthJwt'
-import '@/auth/SignUp'
-import '@/auth/SignIn'
-
+import "./initFiles"
 import { configSever } from './envConfig'
 try {
-  app.listen(configSever.port, () => {
+  app.listen(configSever.port || 3000, () => {
     console.log(`Server listening on port ${configSever.port}`);
   })
 } catch (error) {
-  throw error
   console.error('Failed to start the server:', error);
 }

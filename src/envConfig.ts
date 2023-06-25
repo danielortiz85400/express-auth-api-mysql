@@ -1,6 +1,7 @@
 import { PoolOptions } from 'mysql2'
 import { config } from 'dotenv'
 config()
+/* BD -------------------------------------------*/
 
 interface DBConfig extends PoolOptions {
   host?: string
@@ -9,7 +10,6 @@ interface DBConfig extends PoolOptions {
   database?: string
   port?: number
 }
-
 export const configPoolConnect: DBConfig = {
   host: process.env.DB_HOST,
   user: process.env.DB_USER,
@@ -18,14 +18,15 @@ export const configPoolConnect: DBConfig = {
   port: Number(process.env.DB_PORT)
 
 }
+/*-------------------------------------------*/
 
-// interface Token {
-//   token: string
-// }
+// Token
 export const authToken = {
   token: process.env.AUTH_TOKEN ?? ''
 }
 
+// Servidor
 export const configSever = {
-  port: 3000
+  port: process.env.PORT,
+  origin: process.env.ORIGIN
 }
