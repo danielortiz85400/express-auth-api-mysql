@@ -12,27 +12,25 @@ passport.use(
       passwordField: "userPassword",
       passReqToCallback: true,
     },
-    ({ body: { userRole } }, dni, userPassword, done) => {
-      (async () => {
-        try {
-          const [isValid, _field]: [RowDataPacket[], FieldPacket[]] =
-            await pool.query("SELECT dni FROM sign_up WHERE dni = ?", [dni]);
+    async ({ body: { userRole } }, dni, userPassword, done) => {
+      try {
+        const [isValid, _field]: [RowDataPacket[], FieldPacket[]] =
+          await pool.query("SELECT dni FROM sign_up WHERE dni = ?", [dni]);
 
-          if (isValid.length > 0) {
-            return done({ message: "Usuario inválido!" });
-          }
-          const userToRegister = authService({ dni, userPassword, userRole });
-
-          await pool.query(
-            "INSERT INTO sign_up (id, dni, password, user_role, role_permissions, status, token) VALUES (?)",
-            [Object.values(userToRegister)]
-          );
-
-          done(null, userToRegister);
-        } catch (error) {
-          done(error);
+        if (isValid?.length) {
+          return done({ message: "Usuario inválido!" });
         }
-      })().catch((error) => done(error));
+        const user = authService({ dni, userPassword, userRole });
+
+        await pool.query(
+          "INSERT INTO sign_up (id, dni, password, user_role, role_permissions, status, token) VALUES (?)",
+          [Object.values(user)]
+        );
+
+        done(null, user);
+      } catch (error) {
+        done(error);
+      }
     }
   )
-)
+);

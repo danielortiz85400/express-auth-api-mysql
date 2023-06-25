@@ -6,7 +6,6 @@ import { comparePassword } from "@/utils/hashPassword";
 import { createJwt } from "@/utils/creatorJwt";
 import { authToken } from "@/envConfig";
 
-
 passport.use(
   "signin",
   new LocalStrategy(
@@ -15,30 +14,25 @@ passport.use(
       passwordField: "userPassword",
       passReqToCallback: true,
     },
-    (_req, dni, userPassword, done) => {
-      (async () => {
-        try {
-          const [user, _filed]: [RowDataPacket[], FieldPacket[]] =
-            await pool.query(
-              "SELECT id, dni , password, user_role, role_permissions, status FROM sign_up WHERE dni = ?",
-              [dni]
-            );
-          if (
-            user.length === 0 ||
-            !comparePassword(userPassword, user[0].password)
-          ) {
-            return done({
-              message: "Credenciales inválidas",
-            });
-          }
-          done(null, {
-            user: user,
-            jwt: createJwt(user[0].id, authToken.token),
+    async (_req, dni, userPassword, done) => {
+      try {
+        const [[user], _filed]: [RowDataPacket[], FieldPacket[]] =
+          await pool.query(
+            "SELECT id, dni , password, user_role, role_permissions, status FROM sign_up WHERE dni = ?",
+            [dni]
+          );
+        if (!user || !comparePassword(userPassword, user.password)) {
+          return done({
+            message: "Credenciales inválidas",
           });
-        } catch (error) {
-          done(error);
         }
-      })().catch((error) => done(error));
+        done(null, {
+          user: user,
+          jwt: createJwt(user.id, authToken.token),
+        });
+      } catch (error) {
+        done(error);
+      }
     }
   )
 );
