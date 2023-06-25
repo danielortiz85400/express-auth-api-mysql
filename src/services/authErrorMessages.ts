@@ -1,9 +1,15 @@
-export function errorMessages(err: Error | null, info: any) {
+/**
+ * @param {null } err - Error devuelto por SignIn o SignUp (done fn).
+ * @param { any } info - Error devuelto por fallo (extra de passport).
+ * @returns {void} - Retorna err(SignIn o SignUp) o info(cambiando su  mensaje de error jwt).
+ */
+export function errorMessages(err: null, info: any): void {
   const tokenSignatureValidation =
-    typeof info === "object" ? JSON.parse(JSON.stringify(info)) : null;
+    typeof info === "object" ? { ...info } : null;
+
   return (
     err ??
-    (tokenSignatureValidation[0].name === "JsonWebTokenError"
+    (tokenSignatureValidation.name === "JsonWebTokenError"
       ? (tokenSignatureValidation.message = "Sin autorización")
       : info)
   );
