@@ -27,6 +27,7 @@ export const authToken = {
 
 // Servidor
 export const configSever = {
-  port: process.env.PORT,
-  origin: process.env.ORIGIN
+  port: process.env.SERVER_PORT,
+  origin: process.env.ORIGIN,
+  cookie: process.env.COOKIE
 }

@@ -11,7 +11,7 @@ interface Token {
  * @param {string} key - Serial de autenticación.
  * @returns {Token} - Objeto que contiene el token JWT y la fecha de expiración.
  */
-export const createJwt = (id: string, key: string): Token => {
+export const createJwt = (id: string | undefined, key: string): Token => {
   const expiresIn = 1000 * 43200
   return { token: Jwt.sign({ id }, key, { expiresIn }), expiresIn }
 }
