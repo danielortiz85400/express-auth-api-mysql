@@ -2,6 +2,6 @@
 
 import './connectBD'
 import '@/auth/AuthJwt'
-import '@/auth/RenewalToken'
+import '@/auth/AuthCookie'
 import '@/auth/SignUp'
 import '@/auth/SignIn'
