@@ -1,8 +1,8 @@
 import { Router } from "express";
 import { auth } from "../middelwares/MwAuth";
 import { SchemasValidator } from "@/validations/SchemaManager";
-import { signinSchema } from "@/validations/ValSignin";
-import { signupSchema } from "@/validations/ValSignup";
+import { signinSchema } from "@/validations/SchSignin";
+import { signupSchema } from "@/validations/SchSignup";
 
 
 export const router = Router();

@@ -1,5 +1,5 @@
 import Joi from "joi";
-import { errorValidation } from "./ValErrorMessages";
+import { errorValidation } from "./ErrorMessages";
 const { signup } = errorValidation;
 
 export const signupSchema = Joi.object().keys({
