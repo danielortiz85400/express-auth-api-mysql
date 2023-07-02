@@ -27,7 +27,7 @@ passport.use(
           });
         }
         done(null, {
-          user: user,
+          user: { ...user, password: undefined },
           jwt: createJwt(user.id, authToken.token),
         });
       } catch (error) {

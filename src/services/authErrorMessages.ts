@@ -1,16 +1,24 @@
+import { IErrorsJwt, errorsJWT } from "@/interfaces/IErrorsJwt";
 /**
- * @param {null } err - Error devuelto por SignIn o SignUp (done fn).
- * @param { any } info - Error devuelto por fallo (extra de passport).
- * @returns {void} - Retorna err(SignIn o SignUp) o info(cambiando su  mensaje de error por defecto).
+ * Manejador de errores para passport-local/jwt/cookie (Principalmente personaliza mensajes de error para jwt)
+ * @param {null } err - Error (<fn>verify)
+ * @param { any } info - Error extra (<fn>verify).
+ * @returns {void} - Retorna mensaje de error o cambia el por defecto (para jwt).
  */
+
 export function errorMessages(err: null, info: any): void {
-  const tokenSignatureValidation =
-    typeof info === "object" ? { ...info } : null;
+  let tokenValidation = typeof info === "object" ? { ...info } : null ?? {};
+
+  if (!Object.keys(tokenValidation)?.length)
+    tokenValidation = { name: "NoAuthToken", message: "NoAuthToken" };
+
+  const errorType = ((type): string =>
+    type[<keyof IErrorsJwt>tokenValidation?.message])(errorsJWT);
 
   return (
     err ??
-    (tokenSignatureValidation.name === "JsonWebTokenError"
-      ? (tokenSignatureValidation.message = "Sin autorización(Jwt)")
+    (["NoAuthToken", "JsonWebTokenError"].includes(tokenValidation.name)
+      ? (tokenValidation.message = errorType)
       : info)
   );
 }

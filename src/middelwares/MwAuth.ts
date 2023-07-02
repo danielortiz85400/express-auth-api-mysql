@@ -2,21 +2,7 @@ import { Request, Response, NextFunction } from "express";
 import passport from "passport";
 import { errorMessages } from "@/services/authErrorMessages";
 import { cookieSetter } from "@/utils/cookieSetter";
-
-interface User {
-  user: {
-    id: string;
-    dni: string;
-    password: string;
-    user_role: string;
-    role_permissions: string;
-    status: number;
-  };
-  jwt: {
-    token: string;
-    expiresIn: number;
-  };
-}
+import { User } from "@/interfaces/IAuth";
 
 export const auth =
   (name: string) =>
@@ -25,7 +11,6 @@ export const auth =
       name,
       { session: false },
       (err: null, user: false | User, info?: undefined) => {
-        console.log(user)
         if (err !== null || !user) {
           return res.status(401).json({
             error: {
@@ -35,7 +20,7 @@ export const auth =
           });
         }
 
-        // Permite usar passport-jwt y passport-cookie aquí mismo
+        // Omite la respuesta jwt cuando el token en válido.
         if (["id", "iat", "exp"].every((keys) => keys in user)) return next();
         cookieSetter(user.user.id, res);
         res.status(200).json({

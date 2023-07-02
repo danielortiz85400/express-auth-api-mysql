@@ -5,6 +5,7 @@ import { authToken, configSever } from "@/envConfig";
 import { createJwt } from "@/utils/creatorJwt";
 import Jwt from "jsonwebtoken";
 import { pool } from "@/connectBD";
+import { IErrorsCookie, errorsCookie } from "@/interfaces/IErrosCookie";
 
 type Done = (
   err: null | { cookie: string },
@@ -21,14 +22,7 @@ passport.use(
       Jwt.verify(cookie, configSever.cookie ?? "", async (err, decode) => {
         if (err) {
           const { message } = { ...err };
-          console.log(message)
-          const errorType = ((type: Record<string, string>) => type[message])({
-            "invalid token": "Token inválido.",
-            "jwt malformed": "Token malformado.",
-            "jwt signature is required": "Firma de token requerida.",
-            "invalid signature": "Firma de token inválida.",
-            "TokenExpiredError": "Cookie expirada"
-          });
+          const errorType = ((type) => type[<keyof IErrorsCookie>message])(errorsCookie);
           return done({ cookie: errorType });
         }
         const UserID = (<Jwt.JwtPayload>decode).id;
@@ -37,9 +31,8 @@ passport.use(
             "SELECT id, dni , password, user_role, role_permissions, status FROM sign_up WHERE id = ?",
             [UserID]
           );
-        console.log(user);
         done(null, {
-          user: user,
+          user: {...user, password:undefined},
           jwt: createJwt(UserID, authToken.token),
         });
       });

@@ -5,6 +5,7 @@ import cors from 'cors'
 import { configSever } from "./envConfig"
 
 export const app = express()
+
 // Configuración
 const middlewares = [
   express.json(),

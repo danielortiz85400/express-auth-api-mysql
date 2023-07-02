@@ -7,7 +7,7 @@ import Jwt from "jsonwebtoken";
  * @param {Express.Response} res - Objeto response para retornar directamente
  * @returns {Express.Response} - Respuesta cookie.
  */
-export const cookieSetter = (id: string, res: Response): Response => {
+export const cookieSetter = (id: string | null, res: Response): Response => {
   const setter = Jwt.sign({ id }, configSever.cookie ?? "", {
     algorithm: "HS256",
   });

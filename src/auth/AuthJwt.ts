@@ -6,5 +6,6 @@ passport.use('authJwt', new JWTStrategy( {
     secretOrKey: authToken.token,
     jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
   },  ( jwt_payload, done)=>{
+    console.log(jwt_payload)
     done(null, jwt_payload)
   }) )

@@ -1,21 +1,15 @@
-import { authToken } from '@/envConfig'
-import { createJwt } from '@/utils/creatorJwt'
-import { encryptPassword } from '@/utils/hashPassword'
-import { UserRow } from '@/interfaces/IAuth'
+import { authToken } from "@/envConfig";
+import { createJwt } from "@/utils/creatorJwt";
+import { encryptPassword } from "@/utils/hashPassword";
+import { IUser, IRoles, allowedRoles } from "@/interfaces/IAuth";
 
-export const authService = ({
-  dni,
-  userPassword,
-  userRole
-}: UserRow): UserRow => {
-  const password = encryptPassword(<string>userPassword)
-  const { token } = createJwt(dni, authToken.token)
-  const permissions = ((roles: Record<string, string>) => roles[userRole])({
-    ADMINISTRADOR: '["ADMINISTRADOR", "USUARIO"]',
-    MODERADOR: '["ADMINISTRADOR", "USUARIO"]',
-    USUARIO: '["USUARIO", "USUARIO"]'
-  })
-
+// Servicio signup
+export const authService = ({ dni, userPassword, userRole }: IUser): IUser => {
+  const password = encryptPassword(<string>userPassword);
+  const { token } = createJwt(dni, authToken.token);
+  const permissions = ((roles: IRoles): string => roles[userRole])(
+    allowedRoles
+  );
   return {
     id: null,
     dni,
@@ -23,6 +17,6 @@ export const authService = ({
     userRole,
     permissions,
     status: false,
-    token
-  }
-}
+    token,
+  };
+};

@@ -1,5 +1,5 @@
 import passport from "passport";
-import {  Strategy as LocalStrategy } from "passport-local";
+import { Strategy as LocalStrategy } from "passport-local";
 import { RowDataPacket, FieldPacket } from "mysql2/promise";
 import { pool } from "@/connectBD";
 import { authService } from "@/services/authService";
@@ -27,7 +27,7 @@ passport.use(
           [Object.values(user)]
         );
 
-        done(null, user);
+        done(null, { user });
       } catch (error) {
         done(error);
       }
