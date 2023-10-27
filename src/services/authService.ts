@@ -7,9 +7,7 @@ import { IUser, IRoles, allowedRoles } from "@/interfaces/IAuth";
 export const authService = ({ dni, userPassword, userRole }: IUser): IUser => {
   const password = encryptPassword(<string>userPassword);
   const { token } = createJwt(dni, authToken.token);
-  const permissions = ((roles: IRoles): string => roles[userRole])(
-    allowedRoles
-  );
+  const { [userRole]: permissions } = allowedRoles;
   return {
     id: null,
     dni,

@@ -6,11 +6,11 @@ export interface IRoles {
   USUARIO: string;
 }
 
-export const allowedRoles: IRoles = {
+export const allowedRoles: Readonly<IRoles> = {
   ADMINISTRADOR: '["ADMINISTRADOR", "USUARIO"]',
   MODERADOR: '["ADMINISTRADOR", "USUARIO"]',
-  USUARIO: '["USUARIO", "USUARIO"]'
-}
+  USUARIO: '["USUARIO", "USUARIO"]',
+};
 export interface IUser {
   id?: null;
   dni: string;
@@ -36,5 +36,3 @@ export interface User {
     expiresIn: number;
   };
 }
-
-

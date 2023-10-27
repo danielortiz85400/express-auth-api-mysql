@@ -1,4 +1,5 @@
 import { PoolOptions } from 'mysql2'
+import { Secret } from "jsonwebtoken"
 import { config } from 'dotenv'
 config()
 
@@ -25,9 +26,15 @@ export const authToken = {
   token: process.env.AUTH_TOKEN ?? ''
 }
 
+interface Server {
+  port: number,
+  origin: string
+  cookie: Secret
+}
+
 // Servidor
-export const configSever = {
-  port: process.env.SERVER_PORT,
-  origin: process.env.ORIGIN,
-  cookie: process.env.COOKIE
+export const configSever: Server  = {
+  port: Number(process.env.SERVER_PORT) ,
+  origin: process.env.ORIGIN || '',
+  cookie: process.env.COOKIE || ''
 }

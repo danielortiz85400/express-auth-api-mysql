@@ -7,7 +7,7 @@ export interface IErrorsJwt {
   TokenExpiredError: string;
 }
 
-export const errorsJWT: IErrorsJwt = {
+export const errorsJWT: Readonly<IErrorsJwt> = {
   NoAuthToken: "Token requerido",
   "invalid token": "Token inválido.",
   "jwt malformed": "Token malformado.",

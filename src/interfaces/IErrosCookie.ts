@@ -6,7 +6,7 @@ export interface IErrorsCookie {
   TokenExpiredError: string;
 }
 
-export const errorsCookie: IErrorsCookie = {
+export const errorsCookie: Readonly<IErrorsCookie> = {
   "invalid token": "Cookie inválido.",
   "jwt malformed": "Cookie malformado.",
   "jwt signature is required": "Firma de cookie requerida.",

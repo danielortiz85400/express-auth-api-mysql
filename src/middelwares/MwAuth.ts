@@ -1,6 +1,7 @@
 import { Request, Response, NextFunction } from "express";
+import { JsonWebTokenError } from "jsonwebtoken";
 import passport from "passport";
-import { errorMessages } from "@/services/authErrorMessages";
+import { exceptionPassport } from "@/services/authException";
 import { cookieSetter } from "@/utils/cookieSetter";
 import { User } from "@/interfaces/IAuth";
 
@@ -10,12 +11,12 @@ export const auth =
     passport.authenticate(
       name,
       { session: false },
-      (err: null, user: false | User, info?: undefined) => {
+      (err: null, user: false | User, info?: JsonWebTokenError) => {
         if (err !== null || !user) {
           return res.status(401).json({
             error: {
               status: 401,
-              message: errorMessages(err, info),
+              message: exceptionPassport(err, info),
             },
           });
         }
